@@ -1,0 +1,355 @@
+@import url("https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+:root {
+  --bg-color: rgb(235, 235, 235);
+  --text-color: #222;
+  --border-color: #222;
+  --primary-color: #fff;
+  --check-box-color: #fff;
+  --checkbox-shadow-color: #22222278;
+  --completed-task-color: #616161;
+  --btn-color: rgb(240, 240, 240);
+  --task-tick: #dfdfdf;
+  --del-icon-color: #222;
+  --gradient-border: #222;
+  --line-color: #222;
+  --label-color: #505050;
+  --toggle-color: #222;
+  --primary-color: #222;
+}
+[data-theme="dark"] {
+  --bg-color: #222;
+  --text-color: #fff;
+  --task-tick: #222;
+  --line-color: #bfbfbf;
+  --border-color: #fff;
+  --toggle-color: #fff;
+  --primary-color: #dddddd;
+  --del-icon-color: #fff;
+  --check-box-color: #a3a3a3;
+  --checkbox-shadow-color: #90909078;
+  --completed-task-color: #7a7a7a;
+  --btn-color: rgb(206, 206, 206);
+  --gradient-border: rgb(255, 0, 0);
+  --label-color: rgb(159, 159, 159);
+}
+body {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.App {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-color);
+  min-height: 100vh;
+  transition: all 0.3s;
+}
+
+.main-todo h1 {
+  font-size: 8.5vw;
+  font-family: "Kanit";
+  font-weight: 700;
+  font-style: italic;
+  margin: 0;
+  padding-top: 1rem;
+  text-align: center;
+  color: var(--text-color);
+}
+.input-form {
+  display: flex;
+  justify-content: center;
+  padding-top: 2rem;
+  padding-bottom: 4rem;
+  gap: 10px;
+}
+.input-form #taskIN {
+  outline: none;
+  border: none;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 0.2rem;
+}
+.input {
+  position: relative;
+  overflow: hidden;
+}
+span::before,
+span::after {
+  content: "";
+  position: absolute;
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-radius: 4px;
+}
+span::before {
+  top: 0px;
+  right: 0px;
+  border-top: 0px solid var(--gradient-border);
+  border-right: 0px solid var(--gradient-border);
+  transition: border-width 0.3s ease 0.9s, width 0.3s ease 0.9s,
+    height 0.3s ease 0.6s;
+}
+
+span::after {
+  left: 0px;
+  bottom: 0px;
+  border-bottom: 0px solid var(--gradient-border);
+  border-left: 0px solid var(--gradient-border);
+  transition: border-width 0s ease 0.6s, width 0.3s ease 0.3s, height 0.3s ease;
+}
+
+#taskIN:focus + span::before,
+#taskIN:focus + span::after {
+  width: 100%;
+  height: 100%;
+  border-width: 2px;
+}
+
+#taskIN:focus + span::before {
+  transition: width 0.3s ease, height 0.3s ease 0.3s;
+}
+
+#taskIN:focus + span::after {
+  transition: border-width 0s ease 0.6s, width 0.3s ease 0.6s,
+    height 0.3s ease 0.9s;
+}
+@property --angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+#addBtn {
+  outline: none;
+  border: none;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.5s;
+  font-size: 1rem;
+  border-radius: 4px;
+  padding: 0.1rem;
+  position: relative;
+  background-color: rgb(240, 240, 240);
+}
+#addBtn:hover::after,
+#addBtn:hover::before {
+  content: "";
+  position: absolute;
+  background: conic-gradient(
+    from var(--angle),
+    var(--border-color),
+    transparent 50%
+  );
+  width: 100%;
+  height: 100%;
+  top: -7.7%;
+  left: 50%;
+  transform: translate(-50%);
+  padding: 1.9px 1.5px;
+  z-index: -1;
+  border-radius: 4px;
+  animation: spin 3s linear infinite;
+}
+#addBtn::before {
+  filter: blur(1px);
+}
+@keyframes spin {
+  to {
+    --angle: 360deg;
+  }
+}
+.taskCard {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 70%;
+  min-height: 150px;
+  gap: 15px;
+  align-self: center;
+  text-align: center;
+}
+ol {
+  margin: 0;
+  padding: 0;
+  column-gap: 100px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  list-style: none;
+}
+.task {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  font-size: 1.6rem;
+  transition: all 0.4s ease-in;
+  color: var(--text-color);
+}
+ol .task::before {
+  content: "";
+  position: absolute;
+  bottom: 2px;
+  left: 0;
+  background-color: var(--line-color);
+  width: 100%;
+  height: 1px;
+  transition: all 0.4s ease-in;
+}
+li {
+  position: relative;
+  height: 60px;
+}
+.date {
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  top: 50%;
+  left: 55%;
+  color: var(--primary-color);
+}
+.delIcon {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  left: -29px;
+  top: 10px;
+  outline: none;
+  width: 18px;
+  height: 16px;
+  border: 1px solid var(--del-icon-color);
+  border-radius: 4px;
+  background-color: transparent;
+  cursor: pointer;
+  color: var(--del-icon-color);
+}
+.delicon svg {
+  align-self: center;
+}
+input[type="checkbox"] {
+  opacity: 0;
+  position: absolute;
+  left: -27px;
+  z-index: 1;
+}
+.check {
+  position: absolute;
+  left: -29px;
+  bottom: 12px;
+  width: 18px;
+  height: 18px;
+  border: 1px solid var(--border-color);
+  background-color: var(--check-box-color);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: 0.2s ease-in;
+}
+input[type="checkbox"]:hover ~ .check {
+  border-color: transparent;
+  background-color: var(--check-box-color);
+}
+input[type="checkbox"]:checked ~ .check {
+  background-color: var(--border-color);
+  box-shadow: 0px 0px 0px 2px var(--checkbox-shadow-color);
+}
+.check::after {
+  content: "";
+  position: absolute;
+  width: 5.5px;
+  height: 10.5px;
+  border: solid var(--task-tick);
+  border-radius: 0px;
+  border-width: 0px 2px 2px 0px;
+  top: 1.1px;
+  left: 5.3px;
+  transform: rotate(45deg);
+  transition: 0.2s ease-in;
+  opacity: 0;
+}
+input[type="checkbox"]:checked ~ .check::after {
+  opacity: 1;
+}
+input[type="checkbox"]:checked + .task::before {
+  content: "";
+  position: absolute;
+  bottom: 40%;
+  transform: translateY(50%);
+  left: 0;
+  background-color: var(--line-color);
+  width: 110%;
+  height: 1.9px;
+  color: var(--line-color);
+  font-style: italic;
+  transition: all 0.4s ease-in;
+}
+input[type="checkbox"]:checked + .task {
+  color: var(--completed-task-color);
+  font-style: italic;
+}
+.tsk {
+  color: var(--text-color);
+  font-size: 1.2rem;
+}
+
+.togg {
+  position: relative;
+}
+.toggle {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 30px;
+  height: 30px;
+  background-color: var(--toggle-color);
+  border-radius: 50%;
+  cursor: pointer;
+}
+#toggle {
+  position: absolute;
+  color: var(--label-color);
+  top: 12px;
+  right: 14.5px;
+  font-size: 1.3rem;
+  cursor: pointer;
+}
+@media all and (min-width: 425px) and (max-width: 700px) {
+  .main-todo h1 {
+    font-size: 10vw;
+  }
+  input[type="checkbox"]:checked + .task::before {
+    content: "";
+    position: absolute;
+    bottom: 40%;
+    transform: translateY(50%);
+    left: 0;
+    background-color: var(--line-color);
+    width: 100%;
+    height: 1.9px;
+    color: var(--line-color);
+    font-style: italic;
+    transition: all 0.4s ease-in;
+  }
+}
+@media all and (max-width: 425px) {
+  ol {
+    column-gap: 100px;
+    row-gap: 15px;
+  }
+  .task {
+    font-size: 5.5vw;
+  }
+  input[type="checkbox"]:checked + .task::before {
+    content: "";
+    position: absolute;
+    bottom: 40%;
+    transform: translateY(50%);
+    left: 0;
+    background-color: var(--line-color);
+    width: 100%;
+    height: 1.9px;
+    color: var(--line-color);
+    font-style: italic;
+    transition: all 0.4s ease-in;
+  }
+}
